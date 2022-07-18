@@ -1,0 +1,54 @@
+계정은 C##idev
+
+시퀀스는 데이터를 참고해서 2개 필요한것 만드세요.
+
+오류를 대비해서 drop_biik.sql 파일에 drop 필요한 5개 테이블, 시퀀스
+
+ 명령어 작성하세요.
+
+
+create table tbl_bookrent(
+rent_no number(5,0) not null unique,
+mem_idx number(5,0) primary key,
+bcode char(5) not null,
+rent_date date not null,
+exp_date date not null,
+return_date date,
+delay_days number(3,0) );
+
+
+create table book_member(
+mem_idx number(5,0) not null,
+name varchar2(20) not null,
+email varchar2(20) not null,
+tel varchar2(20),
+password varchar2(10)
+foreign key (mem_idx) references tbl_bookrent(mem_idx);
+
+create tbl_book(
+bcode char(5) not null,
+title varchar2(30) not null,
+writer varchar2(20),
+publisher varchar2(20),
+pdate date
+foreign key (bcode) references tbl_bookrent(bcode));
+
+
+create sequence bookrent_seq start with 1;
+create sequence book_seq start with 10001;
+ 
+insert into book_member (mem_idx,name,email,tel,password) values( book_seq.nextval ,'이하늬','honey@naver.com','010-9889-0567','1122');
+insert into book_member  (mem_idx,name,email,tel,password) values( book_seq.nextval ,'이세종','jong@daum.net','010-2354-6773','2345');
+insert into book_member (mem_idx,name,email,tel,password) values(book_seq.nextval ,'최행운',lucky@korea.com','010-5467-8792','9876');
+insert into book_member (mem_idx,name,email,tel,password) values( book_seq.nextval ,'나길동','nadong@kkk.net','010-3456-8765','3456');
+insert into book_member  (mem_idx,name,email,tel,password) values( book_seq.nextval ,'강감찬','haha@korea.net','010-3987-9087','1234');
+
+insert into tbl_book(bcode,title,writer,publisher,pdate) values('A1101','코스모스','칼세이건','사이언스북스','2006-12-01');
+insert into tbl_book(bcode,title,writer,publisher,pdate) values('B1101','해커스토익','이해커','해커스랩','2018-07-10');
+insert into tbl_book(bcode,title,writer,publisher,pdate) values('C1101',푸른사자 와니니','이현','창비','2015-06-20');
+insert into tbl_book(bcode,title,writer,publisher,pdate) values('A1102','페스트','알베르트 까뮈','민음사','2011-03-01'); 
+
+insert into tbl_bookrent(rent_no,mem_idx,bcode,rent_date,exp_date,return_date,delay_day)values(bookrent_seq.nextval,10001,'A1101','2021-10-11',rent_date+14);
+insert into tbl_bookrent(rent_no,mem_idx,bcode,rent_date,exp_date,return_date,delay_day)values(bookrent_seq.nextval,10001,'A1101','2021-10-11',rent_date+14);
+insert into tbl_bookrent(rent_no,mem_idx,bcode,rent_date,exp_date,return_date,delay_day)values(bookrent_seq.nextval,10001,'B1101','2021-09-01',rent_date+14,exp_date-1);
+
